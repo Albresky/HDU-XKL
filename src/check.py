@@ -1,0 +1,73 @@
+#!/usr/bin/python3.6
+# -*- coding: utf-8 -*-
+# @Author  : Loot at the stars
+# @Time    : 2022/5/12 15:22
+# @File    : check.py
+# @Software: PyCharm
+
+import logging
+import requests.utils
+from login import Login
+from functions import get_t, get_sklTicket
+from myHeaders import *
+
+
+class Check:
+    def __init__(self):
+        self.login = Login()
+        self.param = self.login.skl_login()
+        self.url_check = ""
+        self.url_course = "https://skl.hdu.edu.cn/api/course?startTime="
+        self.url_userinfo = "https://skl.hdu.edu.cn/api/userinfo?type="
+
+    def check(self):
+        headers = headers_check
+        headers["skl-ticket"] = get_sklTicket()
+        headers["X-Auth-Token"] = self.param[1]
+        print("======签到======")
+        code = input("请输入签到码:")
+        self.url_check = "https://skl.hdu.edu.cn/api/checkIn/code-check-in?userid=" + self.param[0] + "&code=" + str(
+            code) + "&latitude=0&longitude=0&t=" + str(get_t())
+        try:
+            response = self.login.session.get(url=self.url_check, headers=headers, verify=False)
+            if response.status_code == 200:
+                print("签到成功！")
+                return
+            elif response.status_code == 401:
+                print(response.text)
+                return
+            logging.debug("连接失败！")
+
+        except Exception as e:
+            logging.error(e)
+
+    def getCourse(self, startDate):
+        url = self.url_course + startDate
+        headers = headers_check
+        headers["skl-ticket"] = get_sklTicket()
+        headers["X-Auth-Token"] = self.param[-1]
+        try:
+            response = self.login.session.get(url=url, headers=headers, verify=False)
+            logging.info(response.status_code)
+            if response.status_code != 200:
+                logging.error("请求课表失败")
+                return
+            logging.debug("请求课表成功")
+            print("======课表======\n" + response.text)
+
+        except Exception as e:
+            logging.error(e)
+
+    def getUserinfo(self):
+        headers = headers_check
+        headers["skl-ticket"] = get_sklTicket()
+        headers["X-Auth-Token"] = self.param[-1]
+        try:
+            response = self.login.session.get(url=self.url_userinfo, headers=headers, verify=False)
+            if response.status_code != 200:
+                logging.error("请求课表失败")
+                return
+            print("======个人信息======\n" + response.text)
+
+        except Exception as e:
+            logging.error(e)

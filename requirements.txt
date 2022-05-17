@@ -1,0 +1,7 @@
+maskpass==0.3.6
+requests==2.27.1
+urllib3==1.26.9
+Js2Py==0.71
+PyYAML==6.0
+lxml==4.8.0
+beautifulsoup4==4.11.1

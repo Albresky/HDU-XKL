@@ -29,11 +29,21 @@ class Check:
         self.url_check = "https://skl.hdu.edu.cn/api/checkIn/code-check-in?userid=" + self.param[0] + "&code=" + str(
             code) + "&latitude=0&longitude=0&t=" + str(get_t())
         try:
+            preRequest = self.login.session.options(url=self.url_userinfo, headers=headers, verify=False)
+            if preRequest.status_code == 200:
+                logging.debug("签到OPTION预检成功！")
+                print("签到OPTION预检成功！")
+            else:
+                logging.debug("签到OPTION预检失败！")
+                print("签到OPTION预检失败！")
+                return
             response = self.login.session.get(url=self.url_check, headers=headers, verify=False)
             if response.status_code == 200:
-                print("签到成功！")
+                print("签到请求成功[200]！")
+                print(response.text)
                 return
             elif response.status_code == 401:
+                print("签到请求失败[401]！")
                 print(response.text)
                 return
             logging.debug("连接失败！")

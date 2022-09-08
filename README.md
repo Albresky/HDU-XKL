@@ -2,7 +2,7 @@
 Full access to skl, mainly used for class checkin.
 
 # Attention
-**This repository is created for technical discussion, all kinds of illegal modification are strongly forbidden !**
+**This repository is created for technical discussion, any kind of modification is strongly forbidden.**
 
 **IF YOU TRIED TO DEVELOP ANY ILLIEGAL OR UNAUTHORIZED TOOL BASED ON THIS REPOSITORY, PLEASE BE RESPONSIBLE FOR YOUR OWN BEHAVIOR.**
 
@@ -21,14 +21,14 @@ myCheck.getCourse("2022-05-11") # get user's CourseList by date
 myCheck.check()                 # class check
 ```
 
-## (Look at here)
+## 👋 (Look at here)
 
-The `config.ymal` DO NOT need to be edited manually.
+The file below **DO NOT** need to be edited manually.
 
-`config.ymal`
+`config.ymal`:
 ```
 User:
-  id:       # Your UserID
+  id:       # Your UserID (HDU-CAS)
   pwd:      # Your LoginPassword
 
 params:     # This node is not allowed to edit.
@@ -36,3 +36,12 @@ params:     # This node is not allowed to edit.
   XAT_updateTime:
 ```
 
+# ATTENTION
+
+- **DO NOT USE PROXY!**
+
+- **DO NOT USE PROXY!**
+
+- **DO NOT USE PROXY!**
+
+Otherwise, error could be triggerred like `(Caused by ProxyError('Cannot connect to proxy.', FileNotFoundError(2, 'No such file or directory')))`

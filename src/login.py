@@ -5,12 +5,10 @@
 # @File    : login.py
 # @Software: PyCharm
 
-import logging
 import requests
-import json
-from functions import generateState, getLT, loadCfg, writeCfg
-from myHeaders import *
-from decode import *
+from Utils.functions import generateState, getLT, loadCfg, writeCfg
+from Utils.myHeaders import *
+from Encrypt.decode import *
 import urllib3
 import datetime
 
@@ -39,8 +37,8 @@ class Login:
 
         urllib3.disable_warnings()
         self.session = requests.session()
-
-        self.cfgData = loadCfg('config.ymal')
+        self.session.verify=False
+        self.cfgData = loadCfg('Configs/config.ymal')
 
         if self.cfgData['User']['id'] is None or self.cfgData['User']['pwd'] is None:
             print("####首次登录，初始化...###")
@@ -57,7 +55,7 @@ class Login:
     # [GET] skl跳转cas认证, 获取响应头Cookie
     def skl2cas(self):
         try:
-            response = self.session.get(url=self.url_skl2cas, headers=headers_skl2cas, verify=False)
+            response = self.session.get(url=self.url_skl2cas, headers=headers_skl2cas)
             if response.status_code != 200:
                 logging.debug("跳转cas认证失败!")
                 return
@@ -83,8 +81,7 @@ class Login:
         try:
             headers["Cookie"] = self.cookie + ";" + " Language=zh_CN"
             headers["Referer"] = self.url_skl2cas
-            response = self.session.post(url=self.url_skl2cas, headers=headers, data=self.formData, verify=False,
-                                         allow_redirects=False)
+            response = self.session.post(url=self.url_skl2cas, headers=headers, data=self.formData, allow_redirects=False)
             if response.status_code != 302:
                 logging.debug("cas认证失败!")
                 return
@@ -103,7 +100,7 @@ class Login:
     def cas2(self):
         headers = headers_cas2
         try:
-            response = self.session.get(url=self.location_cas2skl, headers=headers, verify=False, allow_redirects=False)
+            response = self.session.get(url=self.location_cas2skl, headers=headers, allow_redirects=False)
             if response.status_code != 302:
                 logging.debug("cas跳转skl失败!")
                 return
@@ -118,7 +115,7 @@ class Login:
         headers["Host"] = "cas.hdu.edu.cn"
         headers["Cookies"] = self.cookie + "; Language=zh_CN"
         try:
-            response = self.session.get(url=self.location_cas3, headers=headers, verify=False, allow_redirects=False)
+            response = self.session.get(url=self.location_cas3, headers=headers,allow_redirects=False)
             if response.status_code != 302:
                 logging.debug("获取skl_location失败!")
                 return
@@ -129,7 +126,7 @@ class Login:
     def getToken(self):
         headers = headers_cas2skl
         try:
-            response = self.session.get(url=self.location_token, headers=headers, verify=False, allow_redirects=False)
+            response = self.session.get(url=self.location_token, headers=headers, allow_redirects=False)
             if response.status_code != 302:
                 logging.debug("获取skl_token失败!")
                 return
@@ -138,7 +135,7 @@ class Login:
 
             self.cfgData['params']['X-Auth-Token'] = self.token
             self.cfgData['params']['XAT_updateTime'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            writeCfg('config.ymal', self.cfgData)
+            writeCfg('Configs/config.ymal', self.cfgData)
 
         except Exception as e:
             logging.error(e)
@@ -156,7 +153,7 @@ class Login:
             url = "https://skl.hduhelp.com/"
         headers = headers_cas2skl
         try:
-            response = self.session.get(url=url, headers=headers, verify=False)
+            response = self.session.get(url=url, headers=headers)
             if response.status_code != 200:
                 logging.debug("skl登录失败!")
                 return

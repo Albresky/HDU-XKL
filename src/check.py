@@ -6,10 +6,9 @@
 # @Software: PyCharm
 
 import logging
-import requests.utils
 from login import Login
-from functions import get_t, get_sklTicket
-from myHeaders import *
+from Utils.functions import get_t, gen_skl_ticket
+from Utils.myHeaders import *
 
 
 class Check:
@@ -21,15 +20,12 @@ class Check:
         self.url_userinfo = "https://skl.hdu.edu.cn/api/userinfo?type="
 
     def check(self):
-        headers = headers_check
-        headers["skl-ticket"] = get_sklTicket()
-        headers["X-Auth-Token"] = self.param[1]
         print("======签到======")
         code = input("请输入签到码:")
         self.url_check = "https://skl.hdu.edu.cn/api/checkIn/code-check-in?userid=" + self.param[0] + "&code=" + str(
             code) + "&latitude=0&longitude=0&t=" + str(get_t())
         try:
-            preRequest = self.login.session.options(url=self.url_userinfo, headers=headers, verify=False)
+            preRequest = self.login.session.options(url=self.url_userinfo, headers=headers_check_option)
             if preRequest.status_code == 200:
                 logging.debug("签到OPTION预检成功！")
                 print("签到OPTION预检成功！")
@@ -37,7 +33,10 @@ class Check:
                 logging.debug("签到OPTION预检失败！")
                 print("签到OPTION预检失败！")
                 return
-            response = self.login.session.get(url=self.url_check, headers=headers, verify=False)
+            headers = headers_check_get
+            headers["skl-ticket"] = gen_skl_ticket()
+            headers["X-Auth-Token"] = self.param[1]
+            response = self.login.session.get(url=self.url_check, headers=headers)
             if response.status_code == 200:
                 print("签到请求成功[200]！")
                 print(response.text)
@@ -45,7 +44,8 @@ class Check:
             elif response.status_code == 401:
                 print("签到请求失败[401]！")
                 print(response.text)
-                return
+                self.check()
+                # return
             logging.debug("连接失败！")
 
         except Exception as e:
@@ -53,11 +53,11 @@ class Check:
 
     def getCourse(self, startDate):
         url = self.url_course + startDate
-        headers = headers_check
-        headers["skl-ticket"] = get_sklTicket()
+        headers = headers_check_get
+        headers["skl-ticket"] = gen_skl_ticket()
         headers["X-Auth-Token"] = self.param[-1]
         try:
-            response = self.login.session.get(url=url, headers=headers, verify=False)
+            response = self.login.session.get(url=url, headers=headers)
             logging.info(response.status_code)
             if response.status_code != 200:
                 logging.error("请求课表失败")
@@ -69,11 +69,11 @@ class Check:
             logging.error(e)
 
     def getUserinfo(self):
-        headers = headers_check
-        headers["skl-ticket"] = get_sklTicket()
+        headers = headers_check_get
+        headers["skl-ticket"] = gen_skl_ticket()
         headers["X-Auth-Token"] = self.param[-1]
         try:
-            response = self.login.session.get(url=self.url_userinfo, headers=headers, verify=False)
+            response = self.login.session.get(url=self.url_userinfo, headers=headers)
             if response.status_code != 200:
                 logging.error("请求课表失败")
                 return

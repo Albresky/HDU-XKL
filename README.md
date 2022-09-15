@@ -1,3 +1,5 @@
+[中文](https://github.com/Albresky/XKL/blob/main/readme/README_zh-CN.md)
+
 # XKL
 Full access to skl, mainly used for class checkin.
 

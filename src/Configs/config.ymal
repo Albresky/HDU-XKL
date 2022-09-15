@@ -1,6 +1,6 @@
 User:
-  id: 
-  pwd: 
+  id:
+  pwd:
 params:
-  X-Auth-Token: 
-  XAT_updateTime: 
+  X-Auth-Token:
+  XAT_updateTime:

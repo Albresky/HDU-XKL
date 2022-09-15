@@ -7,7 +7,7 @@
 
 import requests
 from Utils.functions import generateState, getLT, loadCfg, writeCfg
-from Utils.myHeaders import *
+from Utils.Params import *
 from Encrypt.decode import *
 import urllib3
 import datetime

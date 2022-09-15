@@ -12,7 +12,7 @@ import js2py
 
 def cacuRsa(userid, password, lt):
     try:
-        with open('des.js', 'r', encoding='UTF-8') as f:
+        with open('Encrypt/des.js', 'r', encoding='UTF-8') as f:
             js_code = f.read()
     except FileNotFoundError as e:
         logging.error("des.js not found")

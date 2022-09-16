@@ -5,11 +5,12 @@
 # @File    : demo.py
 # @Software: PyCharm
 
-
+import sys,os
+sys.path.append(os.getcwd())
 from HealthCheckIn import HealthCheckIn
 from ClassCheckIn import ClassCheckIn
 
-# # 课堂签到
+# 课堂签到
 # myCheck = ClassCheckIn()
 # myCheck.getUserinfo()  # 获取用户信息
 # myCheck.getCourse("2022-09-08")  # 获取开始时间为*的课表

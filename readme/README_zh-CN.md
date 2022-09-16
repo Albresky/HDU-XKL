@@ -42,7 +42,7 @@ myCheck.check()                 # class check
 
 目前未知学校服务器是否有IP检查，故不建议将代码部署到私有云服务器。如果你有长期开机运行的`闲置手机`、`树莓派`、`NVIDIA Jetson`，或 `笔记本` 等稳定的硬件设施，那么建议使用cron部署计划任务。
 
-### 3.2 云服务器或本地终端（Android Termux 、Linux）
+### 3.2 云服务器或本地终端（Android Termux 、Linux） [Android端部署健康打卡定时任务详细使用教程](https://cosyspark.space/xkl-android-tutorial/) 
 
 - 首先用Vim或Nano编辑XKL/src/task.sh：
   - `workdir` 为 `XKL/src` 的完整路径，比如 `/home/ubuntu/XKL/src` 。注意：路径结尾不要有 `/`

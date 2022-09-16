@@ -43,7 +43,7 @@ Deploying XKL to ECS is not recommended, because the IP address of your ECS coul
 
 Creating a cron task on a stable facility using educational network (like dormitory WiFi and i-HDU) is the best choice if you own some devices like `Smart phones`, `Raspberry Pi`, `NVIDIA Jetson`, `Laptop` and etc.
 
-### 3.2 ECS or Local Terminal（Android Termux 、Linux）
+### 3.2 ECS or Local Terminal（Android Termux 、Linux）[Detailed Tutorial for the Deployment in Android System](https://cosyspark.space/xkl-android-tutorial/) 
 
 - First, use Vim/Nano to edit `XKL/src/task.sh` manually：
   - `workdir` is the full path of `XKL/src`. e.g. `/home/ubuntu/XKL/src`. ATTENTION: this path doesn't need to be ended up with `/`

@@ -48,7 +48,7 @@ Creating a cron task on a stable facility using educational network (like dormit
 - First, use Vim/Nano to edit `XKL/src/task.sh` manually：
   - `workdir` is the full path of `XKL/src`. e.g. `/home/ubuntu/XKL/src`. ATTENTION: this path doesn't need to be ended up with `/`
   - `thisPython` is the full path of the Python interpreter in your system, please use the path of `Python3`. It's full path will be obtained by executing command `$which python3` in Linux systems. The output could be like `/usr/bin/python3`
-  - `thisPythonPATH` is the full path of Python's dependencies, and it tends to be `/usr/lib/python3/dist-packages`
+  - `thisPythonPATH` is the full path of Python's dependencies, and it tends to be `/usr/lib/python3/dist-package`
   
 - Then, create a task with cron:
 

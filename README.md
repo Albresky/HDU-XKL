@@ -35,7 +35,7 @@ myCheck.getCourse("2022-05-11") # get user's CourseList by date
 myCheck.check()                 # class check
 ```
 
-## 3 Daily health check in
+## 3 Auto health check in
 
 ### 3.1 Environment advices
 
@@ -45,7 +45,7 @@ Creating a cron task on a stable facility using educational network (like dormit
 
 ### 3.2 ECS or Local Terminal（Android Termux 、Linux）
 
-- First, use Vim/Nano to edit `XKL/src/bingo.sh` manually：
+- First, use Vim/Nano to edit `XKL/src/task.sh` manually：
   - `workdir` is the full path of `XKL/src`. e.g. `/home/ubuntu/XKL/src`. ATTENTION: this path doesn't need to be ended up with `/`
   - `thisPython` is the full path of the Python interpreter in your system, please use the path of `Python3`. It's full path will be obtained by executing command `$which python3` in Linux systems. The output could be like `/usr/bin/python3`
   - `thisPythonPATH` is the full path of Python's dependencies, and it tends to be `/usr/lin/python3/dist-packages`
@@ -56,7 +56,7 @@ Creating a cron task on a stable facility using educational network (like dormit
 crontab -e
 
 # The first `five` params mean `minute`, `hour`, `day`, `month`, `week`, and `*` means no limitation. The code below shows an example of executing command at 05:20 on everyday
-20 05 * * * bash /home/XKL/src/bingo.sh
+20 05 * * * bash /home/XKL/src/task.sh
 
 # Launch the cron service. 
 # (Under Ubuntu, cron service is `cron`, while in the other Linux distributions, it usually tends to be `crond`.)

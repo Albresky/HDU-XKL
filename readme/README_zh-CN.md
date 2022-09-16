@@ -1,3 +1,5 @@
+[English](https://github.com/Albresky/XKL) | **中文**
+
 # XKL | 下课啦
 `上课啦`系统全接口，主要用于课堂签到和健康打卡
 
@@ -34,7 +36,7 @@ myCheck.getCourse("2022-05-11") # get user's CourseList by date
 myCheck.check()                 # class check
 ```
 
-## 3 课堂签到
+## 3 健康打卡
 
 ### 3.1 环境说明
 
@@ -42,16 +44,32 @@ myCheck.check()                 # class check
 
 ### 3.2 云服务器或本地终端（Android Termux 、Linux）
 
-安装Cron，然后创建定时任务：
+- 首先用Vim或Nano编辑XKL/src/bingo.sh：
+  - `workdir` 为`XKL/src`的完整路径，比如`/home/ubuntu/XKL/src`。注意：路径结尾不要有 `/`
+  - `thisPython` 为Python解释器的路径，请使用`Python3`的路径。Linux系统内可以通过执行`$which python3`查看它的路径，比如`/usr/bin/python3`
+  - `thisPythonPATH` 为Python依赖包的路径，通常为`/usr/lin/python3/dist-packages`
+  
+- 然后通过cron创建定时任务：
 
 ```
 crontab -e
 
 # 从左至右依次表示分、时、日、月、周。示例为每日上午5:20执行任务
-20 05 * * * /usr/bin/python3 /xxx/xxx/XKL/src/demo.py
+20 05 * * * bash /home/XKL/src/bingo.sh
 
-# 启动服务
-service crond start
+# 启动服务， Ubuntu系统下cron服务为cron，其他Linux发行版为crond
+service cron start
+
+# （附）
+# 如果通过crontab -e修改了任务，请重启cron服务
+service cron restart
+
+# （附）
+# 较新的Linux发行版可能通过systemctl来进行服务管理：
+# 启动cron服务
+systemctl start cron
+# 重启cron服务
+systemctl restart cron
 ```
 
 ## 4 附加

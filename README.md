@@ -1,4 +1,4 @@
-[中文](https://github.com/Albresky/XKL/blob/main/readme/README_zh-CN.md)
+**English** | [中文](https://github.com/Albresky/XKL/blob/main/readme/README_zh-CN.md)
 
 # XKL
 Full access to skl, mainly used for class checkin.
@@ -45,16 +45,32 @@ Creating a cron task on a stable facility using educational network (like dormit
 
 ### 3.2 ECS or Local Terminal（Android Termux 、Linux）
 
-Install `Cron`, then create a task:
+- First, use Vim/Nano to edit `XKL/src/bingo.sh` mannually：
+  - `workdir` is the full path of `XKL/src`. e.g. `/home/ubuntu/XKL/src`. ATTENTION: this path doesn't need to be ended up with `/`
+  - `thisPython` is the full path of Python interpreter，please use the path of `Python3`. It's full path will be obtained by executing command `$which python3` in Linux systems. The output could be like `/usr/bin/python3`
+  - `thisPythonPATH` is the full path of Python's dependencies, and it tends to be `/usr/lin/python3/dist-packages`
+  
+- Then, create a task with cron:
 
 ```
 crontab -e
 
-# The first `five` params mean `minute`, `hour`, `day`, `month`, `week`. 示例为每日上午5:20执行任务
-20 05 * * * /usr/bin/python3 /xxx/xxx/XKL/src/demo.py
+# The first `five` params mean `minute`, `hour`, `day`, `month`, `week`. The example below means execute command at 05:20 on everyday
+20 05 * * * bash /home/XKL/src/bingo.sh
 
-# Launch the cron service
-service crond start
+# Launch the cron service. In Ubuntu, cron service is `cron`, while in the other Linux distributions, it usually  tends to be `crond`
+service cron start
+
+# [Extra]
+# Please restart the cron service after modifying the task's content
+service cron restart
+
+# [Extra]
+# `systemctl` could be used to manage the system services in some lastest Linux releases
+# Launch cron service
+systemctl start cron
+# Restart cron service
+systemctl restart cron
 ```
 
 ## 4 In addition

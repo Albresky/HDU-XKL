@@ -1,7 +1,7 @@
 **English** | [中文](https://github.com/Albresky/XKL/blob/main/readme/README_zh-CN.md)
 
 # XKL
-Full access to skl, mainly used for class checkin.
+Full access to skl, mainly used for class checkin and daily health check in.
 
 # Attention
 **This repository is created for technical discussion, any kind of modification is strongly forbidden.**
@@ -39,15 +39,15 @@ myCheck.check()                 # class check
 
 ### 3.1 Environment advices
 
-Deploying the code to ECS is not recommended, because the IP address could be detected and banned by the school's server.
+Deploying XKL to ECS is not recommended, because the IP address of your ECS could be detected and banned by the school's server.
 
-Creating a cron task on a stable facility using educational network (like dormitory WiFi and i-HDU) is the best choice if you own some devices like `Smart phones`, `Respberry Pi`, `NVIDIA Jetson`, `Laptop` and etc.
+Creating a cron task on a stable facility using educational network (like dormitory WiFi and i-HDU) is the best choice if you own some devices like `Smart phones`, `Raspberry Pi`, `NVIDIA Jetson`, `Laptop` and etc.
 
 ### 3.2 ECS or Local Terminal（Android Termux 、Linux）
 
-- First, use Vim/Nano to edit `XKL/src/bingo.sh` mannually：
+- First, use Vim/Nano to edit `XKL/src/bingo.sh` manually：
   - `workdir` is the full path of `XKL/src`. e.g. `/home/ubuntu/XKL/src`. ATTENTION: this path doesn't need to be ended up with `/`
-  - `thisPython` is the full path of Python interpreter，please use the path of `Python3`. It's full path will be obtained by executing command `$which python3` in Linux systems. The output could be like `/usr/bin/python3`
+  - `thisPython` is the full path of the Python interpreter in your system, please use the path of `Python3`. It's full path will be obtained by executing command `$which python3` in Linux systems. The output could be like `/usr/bin/python3`
   - `thisPythonPATH` is the full path of Python's dependencies, and it tends to be `/usr/lin/python3/dist-packages`
   
 - Then, create a task with cron:
@@ -55,10 +55,11 @@ Creating a cron task on a stable facility using educational network (like dormit
 ```
 crontab -e
 
-# The first `five` params mean `minute`, `hour`, `day`, `month`, `week`. The example below means execute command at 05:20 on everyday
+# The first `five` params mean `minute`, `hour`, `day`, `month`, `week`, and `*` means no limitation. The code below shows an example of executing command at 05:20 on everyday
 20 05 * * * bash /home/XKL/src/bingo.sh
 
-# Launch the cron service. In Ubuntu, cron service is `cron`, while in the other Linux distributions, it usually  tends to be `crond`
+# Launch the cron service. 
+# (Under Ubuntu, cron service is `cron`, while in the other Linux distributions, it usually tends to be `crond`.)
 service cron start
 
 # [Extra]

@@ -40,14 +40,14 @@ myCheck.check()                 # class check
 
 ### 3.1 环境说明
 
-目前未知学校服务器是否有IP检查，故不建议将代码部署到私有云服务器。如果你有长期开机运行的`闲置手机`、`树莓派`、`NVIDIA Jetson`，或 `笔记本` 等稳定的硬件设施，那么建议使用cron部署计划任务。
+目前未知学校服务器是否有IP检查，故不建议将代码部署到私有云服务器。如果你有长期开机运行的`闲置手机`、`树莓派`、`英伟达 Jetson`，或 `笔记本` 等稳定的硬件设施，那么建议使用cron部署计划任务。
 
 ### 3.2 云服务器或本地终端（Android Termux 、Linux）
 
 - 首先用Vim或Nano编辑XKL/src/task.sh：
   - `workdir` 为 `XKL/src` 的完整路径，比如 `/home/ubuntu/XKL/src` 。注意：路径结尾不要有 `/`
   - `thisPython` 为Python解释器的路径，请使用 `Python3` 的路径。Linux系统内可以通过执行 `$which python3` 查看它的路径，比如`/usr/bin/python3`
-  - `thisPythonPATH` 为Python依赖包的路径，通常为 `/usr/lin/python3/dist-packages`
+  - `thisPythonPATH` 为Python依赖包的路径，通常为 `/usr/lib/python3/dist-package`
   
 - 然后通过cron创建定时任务：
 

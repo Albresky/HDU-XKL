@@ -9,7 +9,7 @@ Full access to skl, mainly used for class checkin and daily health check in.
 **IF YOU TRIED TO DEVELOP ANY ILLIEGAL OR UNAUTHORIZED TOOL BASED ON THIS REPOSITORY, PLEASE BE RESPONSIBLE FOR YOUR OWN BEHAVIOR.**
 
 # Introduction
-This respository could be helpful to obtain access to `skl` system, including `Personal Info`, `Class Check In`, `Course List`, and etc.
+This respository could be helpful to obtain access to `skl` system, including `Personal Info`, `Class Check In`, `Course List`, `Daily health check in` and etc.
 
 # How to use
 

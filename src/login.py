@@ -5,12 +5,14 @@
 # @File    : login.py
 # @Software: PyCharm
 
+
+
 import requests
-from Utils.functions import generateState, getLT, loadCfg, writeCfg
-from Utils.Params import *
-from Encrypt.decode import *
 import urllib3
 import datetime
+from Encrypt.decode import *
+from Utils.Params import *
+from Utils.functions import generateState, getLT, loadCfg, writeCfg, time2now
 
 
 class Login:
@@ -37,7 +39,7 @@ class Login:
 
         urllib3.disable_warnings()
         self.session = requests.session()
-        self.session.verify=False
+        self.session.verify = False
         self.cfgData = loadCfg('Configs/config.ymal')
 
         if self.cfgData['User']['id'] is None or self.cfgData['User']['pwd'] is None:
@@ -48,9 +50,10 @@ class Login:
         self.userid = str(self.cfgData['User']['id'])
         self.password = str(self.cfgData['User']['pwd'])
         if self.cfgData['params']['X-Auth-Token'] is not None:
-            if (datetime.datetime.strptime(str(self.cfgData['params']['XAT_updateTime']),
-                                           "%Y-%m-%d %H:%M:%S") - datetime.datetime.now()).seconds / 3600 < 144:
+            if time2now(str(self.cfgData['params']['XAT_updateTime'])) < 48:
                 self.token = str(self.cfgData['params']['X-Auth-Token'])
+            else:
+                self.token = self.cfgData['params']['X-Auth-Token'] = ''
 
     # [GET] skl跳转cas认证, 获取响应头Cookie
     def skl2cas(self):
@@ -81,7 +84,8 @@ class Login:
         try:
             headers["Cookie"] = self.cookie + ";" + " Language=zh_CN"
             headers["Referer"] = self.url_skl2cas
-            response = self.session.post(url=self.url_skl2cas, headers=headers, data=self.formData, allow_redirects=False)
+            response = self.session.post(url=self.url_skl2cas, headers=headers, data=self.formData,
+                                         allow_redirects=False)
             if response.status_code != 302:
                 logging.debug("cas认证失败!")
                 return
@@ -115,7 +119,7 @@ class Login:
         headers["Host"] = "cas.hdu.edu.cn"
         headers["Cookies"] = self.cookie + "; Language=zh_CN"
         try:
-            response = self.session.get(url=self.location_cas3, headers=headers,allow_redirects=False)
+            response = self.session.get(url=self.location_cas3, headers=headers, allow_redirects=False)
             if response.status_code != 302:
                 logging.debug("获取skl_location失败!")
                 return

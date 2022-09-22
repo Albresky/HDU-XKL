@@ -5,14 +5,15 @@
 # @File    : functions.py
 # @Software: PyCharm
 
+import logging
+import random
 import secrets
 import string
-import random
-import logging
 import uuid
+from datetime import datetime
+
 import yaml
 from bs4 import BeautifulSoup
-from datetime import datetime
 
 
 # 生成随机9位数字字母码
@@ -89,3 +90,10 @@ def loadCfg(path):
 def writeCfg(path, data):
     with open(path, 'w', encoding='utf-8') as f:
         f.write(yaml.dump(data, allow_unicode=True, sort_keys=False))
+
+
+def time2now(thisDate: str):
+    nowTime = datetime.now()
+    pastDate = datetime.strptime(thisDate, "%Y-%m-%d %H:%M:%S")
+    res = nowTime - pastDate
+    return res.days * 24 + res.seconds / 3600.0

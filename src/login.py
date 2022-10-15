@@ -10,6 +10,7 @@
 import requests
 import urllib3
 import datetime
+import maskpass
 from Encrypt.decode import *
 from Utils.Params import *
 from Utils.functions import generateState, getLT, loadCfg, writeCfg, time2now
@@ -45,7 +46,8 @@ class Login:
         if self.cfgData['User']['id'] is None or self.cfgData['User']['pwd'] is None:
             print("####首次登录，初始化...###")
             self.cfgData['User']['id'] = input("请输入学号：")
-            self.cfgData['User']['pwd'] = input("请输入登录密码：")
+            self.cfgData['User']['pwd'] = maskpass.askpass("请输入登录密码：","*")
+
 
         self.userid = str(self.cfgData['User']['id'])
         self.password = str(self.cfgData['User']['pwd'])

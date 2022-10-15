@@ -7,20 +7,14 @@
 
 
 import logging
-import js2py
+
+from Encrypt.des import strEnc
 
 
 def cacuRsa(userid, password, lt):
-    try:
-        with open('Encrypt/des.js', 'r', encoding='UTF-8') as f:
-            js_code = f.read()
-    except FileNotFoundError as e:
-        logging.error("des.js not found")
-        raise e
-    jsFunction = js2py.EvalJs()
-    jsFunction.execute(js_code)
     value = userid + password + lt
-    _rsa = jsFunction.strEnc(value, '1', '2', '3')
+    _rsa = strEnc(value, '1', '2', '3')
     logging.debug("Compute rsa OK!")
     logging.debug("rsa:  {}".format(_rsa))
     return _rsa
+

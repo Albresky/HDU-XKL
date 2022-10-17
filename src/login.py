@@ -6,11 +6,14 @@
 # @Software: PyCharm
 
 
+import datetime
 
+import maskpass
 import requests
 import urllib3
-import datetime
-import maskpass
+from requests.sessions import HTTPAdapter
+from urllib3.util.retry import Retry
+
 from Encrypt.decode import *
 from Utils.Params import *
 from Utils.functions import generateState, getLT, loadCfg, writeCfg, time2now
@@ -34,24 +37,32 @@ class Login:
             'execution': 'e1s1',
             '_eventId': 'submit'
         }
+        retry_strategy = Retry(
+            total=5
+        )
+
         self.url_skl = "https://skl.hduhelp.com/"
         self.cas_state = generateState()
         self.url_skl2cas = "https://cas.hdu.edu.cn/cas/login?state=" + self.cas_state + "&service=" + "https%3A%2F%2Fskl.hdu.edu.cn%2Fapi%2Fcas%2Flogin%3Fstate%3D" + self.cas_state + "%26index%3D"
 
         urllib3.disable_warnings()
+
         self.session = requests.session()
         self.session.verify = False
+        self.session.mount('http://', HTTPAdapter(max_retries=retry_strategy))
+        self.session.mount('https://', HTTPAdapter(max_retries=retry_strategy))
+
         self.cfgData = loadCfg('Configs/config.ymal')
 
         if self.cfgData['User']['id'] is None or self.cfgData['User']['pwd'] is None:
             print("####首次登录，初始化...####")
             self.cfgData['User']['id'] = input("请输入学号：")
-            self.cfgData['User']['pwd'] = maskpass.askpass("请输入登录密码：","*")
+            self.cfgData['User']['pwd'] = maskpass.askpass("请输入登录密码：", "*")
 
         self.userid = str(self.cfgData['User']['id'])
         self.password = str(self.cfgData['User']['pwd'])
         if self.cfgData['params']['X-Auth-Token'] is not None:
-            timeDelta=time2now(str(self.cfgData['params']['XAT_updateTime']))
+            timeDelta = time2now(str(self.cfgData['params']['XAT_updateTime']))
             logging.debug(timeDelta)
             if timeDelta < 24.0:
                 self.token = str(self.cfgData['params']['X-Auth-Token'])
@@ -148,19 +159,19 @@ class Login:
             logging.error(e)
 
     def skl_login(self):
-        url = ""
+        _url = ""
         if len(self.token) == 0:
             self.skl2cas()
             self.cas1()
             self.cas2()
             self.cas3()
             self.getToken()
-            url = self.location_skl
+            _url = self.location_skl
         else:
-            url = "https://skl.hduhelp.com/"
+            _url = "https://skl.hduhelp.com/"
         headers = headers_cas2skl
         try:
-            response = self.session.get(url=url, headers=headers)
+            response = self.session.get(url=_url, headers=headers)
             if response.status_code != 200:
                 logging.debug("skl登录失败!")
                 return

@@ -21,7 +21,7 @@ class HealthCheckIn:
         # self.url_healthCheckHistory = "https://skl.hdu.edu.cn/api/punch/my"
 
     def check(self):
-        print("======健康打卡======")
+        print("++++++++++++++健康打卡++++++++++++++")
         try:
             preRequest = self.login.session.options(url=self.url_healthCheck, headers=headers_check_option)
             if preRequest.status_code == 200:

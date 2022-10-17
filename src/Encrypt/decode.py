@@ -17,4 +17,3 @@ def cacuRsa(userid, password, lt):
     logging.debug("Compute rsa OK!")
     logging.debug("rsa:  {}".format(_rsa))
     return _rsa
-

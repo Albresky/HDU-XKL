@@ -44,15 +44,16 @@ class Login:
         self.cfgData = loadCfg('Configs/config.ymal')
 
         if self.cfgData['User']['id'] is None or self.cfgData['User']['pwd'] is None:
-            print("####首次登录，初始化...###")
+            print("####首次登录，初始化...####")
             self.cfgData['User']['id'] = input("请输入学号：")
             self.cfgData['User']['pwd'] = maskpass.askpass("请输入登录密码：","*")
-
 
         self.userid = str(self.cfgData['User']['id'])
         self.password = str(self.cfgData['User']['pwd'])
         if self.cfgData['params']['X-Auth-Token'] is not None:
-            if time2now(str(self.cfgData['params']['XAT_updateTime'])) < 48:
+            timeDelta=time2now(str(self.cfgData['params']['XAT_updateTime']))
+            logging.debug(timeDelta)
+            if timeDelta < 24.0:
                 self.token = str(self.cfgData['params']['X-Auth-Token'])
             else:
                 self.token = self.cfgData['params']['X-Auth-Token'] = ''

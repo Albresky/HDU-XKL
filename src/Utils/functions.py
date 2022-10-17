@@ -97,3 +97,10 @@ def time2now(thisDate: str):
     pastDate = datetime.strptime(thisDate, "%Y-%m-%d %H:%M:%S")
     res = nowTime - pastDate
     return res.days * 24 + res.seconds / 3600.0
+
+def time_me(fn):
+    def _wrapper(*args, **kwargs):
+        start = time.time()
+        fn(*args, **kwargs)
+        print("%s 耗时 %s 秒" % (fn.__name__, round(time.time() - start,2)))
+    return _wrapper
